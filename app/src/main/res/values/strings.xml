@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MoxyDemo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+
+    <string name="oops_something_went_wrong">Oops! Something went wrong…</string>
+    <string name="no_data">No data</string>
+    <string name="an_error_has_occurred_click_here_to_retry">An error has occurred! Click here to retry</string>
+    <string name="an_error_has_occurred">Oops! Something went wrong…</string>
+    <string name="hint">hint</string>
+    <string name="hint_email">user@email.com</string>
+    <string name="hint_password">passw0rd</string>
+    <string name="wrong_username_or_password">Wrong username or password</string>
+    <string name="login_success">Login success</string>
+</resources>
