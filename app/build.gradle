@@ -38,6 +38,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -52,13 +53,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-
     compile 'io.reactivex:rxjava:1.2.3'
     compile 'com.jakewharton.rxbinding:rxbinding:1.0.1'
     compile 'com.jakewharton.rxbinding:rxbinding-support-v4:1.0.1'
@@ -72,16 +72,17 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.jakewharton:butterknife:8.5.1'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'frankiesardo:icepick:3.2.0'
-    provided 'frankiesardo:icepick-processor:3.2.0'
-
     compile 'com.arello-mobile:moxy:1.5.3'
-    provided 'com.arello-mobile:moxy-compiler:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
-
     compile 'com.google.dagger:dagger:2.10'
-    apt 'com.google.dagger:dagger-compiler:2.10'
-    provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.jakewharton.timber:timber:4.5.1'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    apt 'com.google.dagger:dagger-compiler:2.10'
+    provided 'frankiesardo:icepick-processor:3.2.0'
+    provided 'com.arello-mobile:moxy-compiler:1.5.3'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'org.greenrobot:greendao:3.2.2'
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
 }

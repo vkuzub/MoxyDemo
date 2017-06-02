@@ -21,4 +21,6 @@ public interface LoginPresenter {
     void doLoginFail();
 
     void onLoginSuccess(LoginResponse loginResponse);
+
+    void onErrorViewClick();
 }

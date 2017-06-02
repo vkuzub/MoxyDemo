@@ -8,10 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.App;
 import com.moxydemo.R;
-import com.moxydemo.base.presenter.HideShowContentPresenter;
 import com.moxydemo.base.view.HideShowContentInteractionView;
 import com.moxydemo.base.view.HideShowContentView;
 import com.moxydemo.utils.ToastUtils;
@@ -32,9 +30,6 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseMvpViewActivity extends MvpAppCompatActivity
         implements HideShowContentView, HideShowContentInteractionView, RxSupport, IcepickSupport {
-
-    @InjectPresenter
-    HideShowContentPresenter hscPresenter;
 
     @Nullable
     @BindView(R.id.loadingView)
@@ -194,7 +189,4 @@ public abstract class BaseMvpViewActivity extends MvpAppCompatActivity
         }
     }
 
-    public HideShowContentPresenter getHscPresenter() {
-        return hscPresenter;
-    }
 }

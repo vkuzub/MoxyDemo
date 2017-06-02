@@ -3,6 +3,7 @@ package com.moxydemo.di.component;
 import com.moxydemo.base.BaseMvpViewActivity;
 import com.moxydemo.di.module.AppModule;
 import com.moxydemo.di.module.UtilsModule;
+import com.moxydemo.ui.cities_list.CitiesListPresenterImpl;
 import com.moxydemo.ui.login.LoginPresenterImpl;
 
 import javax.inject.Singleton;
@@ -20,5 +21,6 @@ public interface AppComponent {
     void inject(BaseMvpViewActivity activity);
 
     void inject(LoginPresenterImpl presenter);
+    void inject(CitiesListPresenterImpl presenter);
 
 }

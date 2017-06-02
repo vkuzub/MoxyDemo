@@ -1,7 +1,10 @@
 package com.moxydemo.data.network;
 
+import com.moxydemo.data.db.model.City;
 import com.moxydemo.data.network.model.LoginResponse;
 import com.moxydemo.utils.RxUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,4 +32,11 @@ public class ApiHelperImpl implements ApiHelper {
     public Observable<LoginResponse> doLoginFailed() {
         return client.doLoginFailed().compose(RxUtils.applySchedulers());
     }
+
+    @Override
+    public Observable<List<City>> getCities() {
+        return client.getCities().compose(RxUtils.applySchedulers());
+    }
+
+
 }

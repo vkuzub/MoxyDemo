@@ -1,6 +1,9 @@
 package com.moxydemo.data.network;
 
+import com.moxydemo.data.db.model.City;
 import com.moxydemo.data.network.model.LoginResponse;
+
+import java.util.List;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -17,4 +20,6 @@ public interface Client {
     @GET("1bdlvt")
     Observable<LoginResponse> doLoginFailed();
 
+    @GET("1eds0p")
+    Observable<List<City>> getCities();
 }

@@ -1,5 +1,6 @@
 package com.moxydemo.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.R;
 import com.moxydemo.base.BaseMvpViewActivity;
+import com.moxydemo.ui.cities_list.CitiesListActivity;
 import com.moxydemo.utils.ButtonTintUtils;
 
 import butterknife.BindView;
@@ -42,7 +44,7 @@ public class MainActivity extends BaseMvpViewActivity implements LoginView {
 
     @Override
     public void onErrorViewClick() {
-        getHscPresenter().showContent();
+        loginPresenter.onErrorViewClick();
     }
 
     @Override
@@ -79,5 +81,11 @@ public class MainActivity extends BaseMvpViewActivity implements LoginView {
     @OnClick(R.id.btnLogIn)
     public void onButtonLoginClick() {
         loginPresenter.onButtonLoginClick(etEmail.getText().toString(), etPassword.getText().toString());
+    }
+
+    @Override
+    public void startCitiesListActivity() {
+        startActivity(new Intent(this, CitiesListActivity.class));
+        finish();
     }
 }

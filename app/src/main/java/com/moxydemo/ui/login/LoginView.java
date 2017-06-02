@@ -26,4 +26,5 @@ public interface LoginView extends MvpView, HideShowContentView {
 
     void onButtonLoginClick();
 
+    void startCitiesListActivity();
 }

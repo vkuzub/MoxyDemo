@@ -35,6 +35,9 @@ public class LoginPresenterImpl extends BasePresenter<LoginView> implements Logi
     public void attachView(LoginView view) {
         super.attachView(view);
         App.getAppComponent().inject(this);
+        if (dataManager.isUserAuthorized()) {
+            getViewState().startCitiesListActivity();
+        }
     }
 
     @Override
@@ -140,9 +143,16 @@ public class LoginPresenterImpl extends BasePresenter<LoginView> implements Logi
             getViewState().showContent();
             if (loginResponse.getStatus().equals("ok")) {
                 getViewState().showMessage(context.getString(R.string.login_success));
+                dataManager.saveUserToken(loginResponse.getToken());
+                getViewState().startCitiesListActivity();
             } else if (loginResponse.getStatus().equals("fail")) {
                 getViewState().showMessage(loginResponse.getMessage());
             }
         }
+    }
+
+    @Override
+    public void onErrorViewClick() {
+        getViewState().showContent();
     }
 }
