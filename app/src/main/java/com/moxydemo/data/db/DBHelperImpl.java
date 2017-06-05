@@ -51,4 +51,10 @@ public class DBHelperImpl implements DBHelper {
     public boolean isCitiesAvailable() {
         return daoSession.getCityDao().loadAll().size() >= 1;
     }
+
+    @Override
+    public void updateCityLike(City city) {
+        city.setFavourited(!city.getFavourited());
+        daoSession.update(city);
+    }
 }

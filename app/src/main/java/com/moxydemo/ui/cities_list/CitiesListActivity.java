@@ -51,7 +51,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
         rvData.setLayoutManager(manager);
         rvData.addItemDecoration(new DividerItemDecoration(this, manager.getOrientation()));
         rvData.setItemAnimator(new DefaultItemAnimator());
-        adapter = new CitiesAdapter();
+        adapter = new CitiesAdapter(getMvpDelegate(), CitiesAdapter.CHILD_ID);
         rvData.setAdapter(adapter);
         rvScrollListener = new EndlessRecyclerViewScrollListener(manager) {
             @Override

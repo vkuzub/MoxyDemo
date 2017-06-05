@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpDelegate;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.R;
 import com.moxydemo.data.db.model.City;
 
@@ -15,18 +17,57 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by Vyacheslav on 01.06.2017.
  */
 
-public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> {
+public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> implements CitiesStarView {
+
+    public static final String CHILD_ID = "10";
+
+    @InjectPresenter
+    CitiesStarPresenter citiesStarPresenter;
+
+    public static final int TYPE_NON_FAVOURITED = 0;
+    public static final int TYPE_FAVOURITED = 1;
+
+    private MvpDelegate<CitiesAdapter> mvpDelegate;
+    private MvpDelegate<?> parentDelegate;
+    private String childId;
 
     private List<City> data = new ArrayList<>();
 
+    public CitiesAdapter(MvpDelegate<?> parentDelegate, String childId) {
+        this.parentDelegate = parentDelegate;
+        this.childId = childId;
+
+        getMvpDelegate().onCreate();
+    }
+
+    public MvpDelegate<CitiesAdapter> getMvpDelegate() {
+        if (mvpDelegate == null) {
+            mvpDelegate = new MvpDelegate<>(this);
+            mvpDelegate.setParentDelegate(parentDelegate, childId);
+        }
+        return mvpDelegate;
+    }
+
     public void addData(List<City> data) {
+        isAllDataToAdapterAdded();
         this.data.addAll(data);
+        citiesStarPresenter.setDataCount(this.data.size());
         notifyDataSetChanged();
+        Timber.i("Add data %s", data.size());
+    }
+
+    //check is all data was added to adapter
+    public void isAllDataToAdapterAdded() {
+        if (data.size() == citiesStarPresenter.getDataCount()) {
+            getMvpDelegate().onAttach();
+            Timber.i("Data added");
+        }
     }
 
     public void clear() {
@@ -36,7 +77,15 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
     @Override
     public CitiesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_city, parent, false);
+        View view = null;
+        switch (viewType) {
+            case TYPE_FAVOURITED:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_city_favourited, parent, false);
+                break;
+            case TYPE_NON_FAVOURITED:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_city, parent, false);
+                break;
+        }
         return new ViewHolder(view);
     }
 
@@ -45,6 +94,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
         City city = data.get(position);
         if (city != null) {
             holder.tvCityName.setText(city.getCity());
+            holder.ivFavourite.setOnClickListener(v -> onUpdateCityLike(city));
         }
     }
 
@@ -53,6 +103,39 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
         if (data != null)
             return data.size();
         return 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (data.get(position).getFavourited()) {
+            return TYPE_FAVOURITED;
+        }
+        return TYPE_NON_FAVOURITED;
+    }
+
+    @Override
+    public void onUpdateCityLike(City city) {
+        citiesStarPresenter.updateLike(city);
+    }
+
+    @Override
+    public void updateRow(City city) {
+        int pos = data.indexOf(city);
+        if (pos != -1) {
+            data.remove(city);
+            data.add(pos, city);
+            notifyItemChanged(pos);
+        } else {
+            Timber.e("Pos == -1 %s", city);
+        }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        Timber.i("OnDetachFromRecyclerView");
+        getMvpDelegate().onDetach();
+        getMvpDelegate().onDestroy();
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

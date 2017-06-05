@@ -31,5 +31,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvCityName"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvCityName"
-        app:srcCompat="@drawable/ic_star_border_white_24px"/>
+        app:srcCompat="@drawable/ic_star_rate_white_18px"/>
 </android.support.constraint.ConstraintLayout>

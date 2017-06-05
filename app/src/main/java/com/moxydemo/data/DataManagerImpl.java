@@ -83,4 +83,9 @@ public class DataManagerImpl implements DataManager {
     public boolean isCitiesAvailable() {
         return dbHelper.isCitiesAvailable();
     }
+
+    @Override
+    public void updateCityLike(City city) {
+        dbHelper.updateCityLike(city);
+    }
 }
