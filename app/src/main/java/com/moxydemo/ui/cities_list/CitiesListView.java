@@ -3,7 +3,6 @@ package com.moxydemo.ui.cities_list;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -33,7 +32,7 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
     @StateStrategyType(AddToEndStrategy.class)
     void fillContent(List<City> list);
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void clearContent();
 
     @StateStrategyType(OneExecutionStateStrategy.class)

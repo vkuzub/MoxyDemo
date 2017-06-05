@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
-import timber.log.Timber;
 
 /**
  * Created by Vyacheslav on 01.06.2017.
@@ -88,7 +87,6 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
     @Override
     public void onListToEndScrolled() {
         if (canLoadMore()) {
-            Timber.i("load more %s", getOffset());
 
             getViewState().showSwipeRefresh(true);
 
@@ -125,8 +123,8 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
 
     @Override
     public void onRefresh() {
-        getViewState().clearContent();
         getViewState().resetPaginationState();
+        getViewState().clearContent();
         loadData();
     }
 

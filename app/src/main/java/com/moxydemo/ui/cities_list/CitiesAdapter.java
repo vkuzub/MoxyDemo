@@ -36,6 +36,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     private MvpDelegate<CitiesAdapter> mvpDelegate;
     private MvpDelegate<?> parentDelegate;
     private String childId;
+    private boolean isPresenterAttached;
 
     private List<City> data = new ArrayList<>();
 
@@ -55,23 +56,26 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     }
 
     public void addData(List<City> data) {
-        isAllDataToAdapterAdded();
         this.data.addAll(data);
         citiesStarPresenter.setDataCount(this.data.size());
         notifyDataSetChanged();
-        Timber.i("Add data %s", data.size());
+        isAllDataToAdapterAdded();
+        Timber.d("Added more data %s", this.data.toString());
     }
 
     //check is all data was added to adapter
+    // FIXME: 05.06.2017
     public void isAllDataToAdapterAdded() {
-        if (data.size() == citiesStarPresenter.getDataCount()) {
-            getMvpDelegate().onAttach();
-            Timber.i("Data added");
-        }
+        if (!isPresenterAttached)
+            if (data.size() == citiesStarPresenter.getDataCount()) {
+                getMvpDelegate().onAttach();
+                isPresenterAttached = true;
+            }
     }
 
     public void clear() {
         data.clear();
+        citiesStarPresenter.resetDataCount();
         notifyDataSetChanged();
     }
 
@@ -120,6 +124,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
     @Override
     public void updateRow(City city) {
+        Timber.i("Update row %s", city);
         int pos = data.indexOf(city);
         if (pos != -1) {
             data.remove(city);
@@ -128,6 +133,11 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
         } else {
             Timber.e("Pos == -1 %s", city);
         }
+    }
+
+    @Override
+    public void clearQueue() {
+        Timber.i("clear queue");
     }
 
     @Override

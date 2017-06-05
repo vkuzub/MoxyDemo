@@ -22,13 +22,19 @@ public class CitiesStarPresenter extends BasePresenter<CitiesStarView> {
     private int dataCount;
 
 
-    public void setDataCount(int dataCount) {
-        this.dataCount = dataCount;
-        Timber.i("Data count: %s", dataCount);
+    public void setDataCount(int newCount) {
+        if (dataCount < newCount)
+            dataCount = newCount;
+        Timber.i("Data count: %s", newCount);
     }
 
     public int getDataCount() {
         return dataCount;
+    }
+
+    public void resetDataCount() {
+        dataCount = 0;
+        getViewState().clearQueue();
     }
 
     public CitiesStarPresenter() {
@@ -38,7 +44,7 @@ public class CitiesStarPresenter extends BasePresenter<CitiesStarView> {
     @Override
     public void attachView(CitiesStarView view) {
         super.attachView(view);
-        Timber.i("Cities star presenter attached %s", this.hashCode());
+        Timber.i("Cities star presenter attached %d", this.hashCode());
     }
 
     void updateLike(City city) {
@@ -57,7 +63,6 @@ public class CitiesStarPresenter extends BasePresenter<CitiesStarView> {
 
     void onCityUpdated(City city) {
         if (city != null) {
-            Timber.i("Update row %s", city);
             getViewState().updateRow(city);
         }
     }
