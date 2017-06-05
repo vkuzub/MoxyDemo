@@ -16,6 +16,10 @@ public interface DBHelper {
 
     Observable<List<City>> loadCities();
 
+    Observable<List<City>> loadCitiesLimit(int limit, int offset);
+
+    int citiesCount();
+
     void clearCities();
 
     boolean isCitiesAvailable();

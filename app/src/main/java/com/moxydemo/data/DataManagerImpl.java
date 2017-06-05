@@ -65,6 +65,16 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public Observable<List<City>> loadCitiesLimit(int limit, int offset) {
+        return dbHelper.loadCitiesLimit(limit, offset);
+    }
+
+    @Override
+    public int citiesCount() {
+        return dbHelper.citiesCount();
+    }
+
+    @Override
     public void clearCities() {
         dbHelper.clearCities();
     }

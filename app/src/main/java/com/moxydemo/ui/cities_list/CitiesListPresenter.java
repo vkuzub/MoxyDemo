@@ -16,5 +16,15 @@ public interface CitiesListPresenter {
 
     void onDataLoadedSuccess(List<City> cities);
 
+    void addDataToAdapter(List<City> cities);
+
     void onRefresh();
+
+    int getOffset();
+
+    void incrementPage();
+
+    void resetPage();
+
+    boolean canLoadMore();
 }

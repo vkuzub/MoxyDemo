@@ -2,6 +2,7 @@ package com.moxydemo;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.moxydemo.di.component.AppComponent;
 import com.moxydemo.di.component.DaggerAppComponent;
 import com.moxydemo.di.module.AppModule;
@@ -23,6 +24,7 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+        Stetho.initializeWithDefaults(this);
     }
 
     private AppComponent buildAppComponent() {

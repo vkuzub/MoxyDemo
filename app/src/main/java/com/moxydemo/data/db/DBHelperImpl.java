@@ -33,6 +33,16 @@ public class DBHelperImpl implements DBHelper {
     }
 
     @Override
+    public Observable<List<City>> loadCitiesLimit(int limit, int offset) {
+        return daoSession.getCityDao().queryBuilder().limit(limit).offset(offset).rx().list();
+    }
+
+    @Override
+    public int citiesCount() {
+        return daoSession.getCityDao().loadAll().size();
+    }
+
+    @Override
     public void clearCities() {
         daoSession.getCityDao().deleteAll();
     }

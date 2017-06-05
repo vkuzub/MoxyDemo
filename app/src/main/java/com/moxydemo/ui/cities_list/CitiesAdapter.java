@@ -24,7 +24,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
     private List<City> data = new ArrayList<>();
 
-    public void setData(List<City> data) {
+    public void addData(List<City> data) {
         this.data.addAll(data);
         notifyDataSetChanged();
     }

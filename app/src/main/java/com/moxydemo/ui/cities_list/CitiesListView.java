@@ -30,7 +30,7 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
     @StateStrategyType(AddToEndStrategy.class)
     void showSwipeRefresh(boolean show);
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
+    @StateStrategyType(AddToEndStrategy.class)
     void fillContent(List<City> list);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
@@ -38,4 +38,7 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void startLoginActivity();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void resetPaginationState();
 }

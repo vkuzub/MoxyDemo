@@ -1,5 +1,7 @@
 package com.moxydemo.ui.cities_list;
 
+import android.os.AsyncTask;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.moxydemo.App;
 import com.moxydemo.R;
@@ -16,6 +18,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
+import timber.log.Timber;
 
 /**
  * Created by Vyacheslav on 01.06.2017.
@@ -23,6 +26,11 @@ import rx.Subscriber;
 
 @InjectViewState
 public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> implements CitiesListPresenter {
+
+    private int sleep = 2;
+
+    private int page;
+    private int limit = 10;
 
     @Inject
     DataManager dataManager;
@@ -41,15 +49,18 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
     public void loadData() {
         getViewState().showLoading();
 
+        resetPage();
+
         rxAddSubscription(
                 Observable.just(dataManager.isCitiesAvailable())
                         .flatMap(available -> {
                             if (available) {
-                                return dataManager.loadCities();
+                                return dataManager.loadCitiesLimit(limit, getOffset());
                             }
-                            return dataManager.getCities().doOnNext(this::saveCitiesToDB);
+                            return dataManager.getCities().doOnNext(this::saveCitiesToDB).
+                                    flatMap(list -> dataManager.loadCitiesLimit(limit, getOffset()));
                         })
-                        .delay(2, TimeUnit.SECONDS)
+                        .delay(sleep, TimeUnit.SECONDS)
                         .compose(RxUtils.applySchedulers())
                         .subscribe(getCommonSubscriber()));
     }
@@ -76,22 +87,68 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
 
     @Override
     public void onListToEndScrolled() {
-        getViewState().showSwipeRefresh(true);
+        if (canLoadMore()) {
+            Timber.i("load more %s", getOffset());
+
+            getViewState().showSwipeRefresh(true);
+
+            rxAddSubscription(dataManager.loadCitiesLimit(limit, getOffset())
+                    .delay(sleep, TimeUnit.SECONDS)
+                    .compose(RxUtils.applySchedulers())
+                    .subscribe(cities -> addDataToAdapter(cities),
+                            throwable -> {
+                                logException(throwable);
+                            }));
+        }
     }
 
     @Override
     public void onDataLoadedSuccess(List<City> cities) {
         if (!CollectionUtils.isNullOrEmpty(cities)) {
+            incrementPage();
             getViewState().showSwipeRefresh(false);
             getViewState().fillContent(cities);
             getViewState().showContent();
+        } else {
+            getViewState().showEmpty(R.string.no_data);
+        }
+    }
+
+    @Override
+    public void addDataToAdapter(List<City> cities) {
+        getViewState().showSwipeRefresh(false);
+        if (!CollectionUtils.isNullOrEmpty(cities)) {
+            incrementPage();
+            getViewState().fillContent(cities);
         }
     }
 
     @Override
     public void onRefresh() {
         getViewState().clearContent();
+        getViewState().resetPaginationState();
         loadData();
+    }
+
+    @Override
+    public int getOffset() {
+        return page * limit;
+    }
+
+    @Override
+    public void incrementPage() {
+        page++;
+    }
+
+    @Override
+    public void resetPage() {
+        page = 0;
+    }
+
+    @Override
+    public boolean canLoadMore() {
+        int count = dataManager.citiesCount();
+        return getOffset() < count;
     }
 
     private void saveCitiesToDB(List<City> cities) {
@@ -99,7 +156,20 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
     }
 
     void logOut() {
-        dataManager.saveUserToken("");
-        getViewState().startLoginActivity();
+        getViewState().showLoading();
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    TimeUnit.SECONDS.sleep(sleep);
+                } catch (InterruptedException e) {
+                    logException(e);
+                }
+                dataManager.saveUserToken("");
+                getViewState().startLoginActivity();
+                return null;
+            }
+        }.execute();
     }
 }

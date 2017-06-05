@@ -1,5 +1,6 @@
 package com.moxydemo.data.network;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.moxydemo.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
@@ -27,8 +28,10 @@ public class ServiceGenerator {
     public <S> S createService(Class<S> serviceClass) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             httpClient.addInterceptor(logging);
+            httpClient.addNetworkInterceptor(new StethoInterceptor());
+        }
 
         httpClient.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
         httpClient.readTimeout(TIMEOUT, TimeUnit.SECONDS);

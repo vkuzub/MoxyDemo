@@ -15,6 +15,7 @@ import com.moxydemo.R;
 import com.moxydemo.base.BaseMvpViewActivity;
 import com.moxydemo.data.db.model.City;
 import com.moxydemo.ui.login.MainActivity;
+import com.moxydemo.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
     @BindView(R.id.srlData)
     SwipeRefreshLayout srlData;
 
+    EndlessRecyclerViewScrollListener rvScrollListener;
     CitiesAdapter adapter;
 
     @Override
@@ -50,6 +52,14 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
         rvData.addItemDecoration(new DividerItemDecoration(this, manager.getOrientation()));
         rvData.setItemAnimator(new DefaultItemAnimator());
         adapter = new CitiesAdapter();
+        rvData.setAdapter(adapter);
+        rvScrollListener = new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore() {
+                citiesListPresenter.onListToEndScrolled();
+            }
+        };
+        rvData.addOnScrollListener(rvScrollListener);
     }
 
     @Override
@@ -73,7 +83,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
 
     @Override
     public void onLogOutClick() {
-        citiesListPresenter.loadData();
+        citiesListPresenter.logOut();
     }
 
     @Override
@@ -88,8 +98,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
 
     @Override
     public void fillContent(List<City> list) {
-        rvData.setAdapter(adapter);
-        adapter.setData(list);
+        adapter.addData(list);
     }
 
     @Override
@@ -101,6 +110,11 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
     public void startLoginActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void resetPaginationState() {
+        rvScrollListener.resetState();
     }
 
     @Override
