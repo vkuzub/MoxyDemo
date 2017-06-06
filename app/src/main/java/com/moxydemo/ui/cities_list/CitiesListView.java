@@ -8,6 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.moxydemo.base.view.HideShowContentView;
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.utils.OneExecutionSingleStateStrategy;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
     @StateStrategyType(AddToEndStrategy.class)
     void fillContent(List<City> list);
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
+    @StateStrategyType(OneExecutionSingleStateStrategy.class)
     void clearContent();
 
     @StateStrategyType(OneExecutionStateStrategy.class)

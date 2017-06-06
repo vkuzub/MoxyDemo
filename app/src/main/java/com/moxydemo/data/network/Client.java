@@ -22,4 +22,7 @@ public interface Client {
 
     @GET("1eds0p")
     Observable<List<City>> getCities();
+
+    @GET("f5zth")
+    Observable<List<City>> getNewCities();
 }

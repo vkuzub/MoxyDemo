@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class CitiesListActivity extends BaseMvpViewActivity implements CitiesListView {
 
@@ -103,6 +104,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
 
     @Override
     public void clearContent() {
+        Timber.i("Clear content");
         adapter.clear();
     }
 

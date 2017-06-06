@@ -35,7 +35,7 @@ public class ApiHelperImpl implements ApiHelper {
 
     @Override
     public Observable<List<City>> getCities() {
-        return client.getCities().compose(RxUtils.applySchedulers());
+        return client.getNewCities().compose(RxUtils.applySchedulers());
     }
 
 
