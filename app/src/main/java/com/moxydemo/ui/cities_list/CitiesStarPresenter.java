@@ -5,9 +5,13 @@ import com.moxydemo.App;
 import com.moxydemo.base.BasePresenter;
 import com.moxydemo.data.DataManager;
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.utils.RxUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import timber.log.Timber;
 
 /**
@@ -48,17 +52,17 @@ public class CitiesStarPresenter extends BasePresenter<CitiesStarView> {
     }
 
     void updateLike(City city) {
-//        rxAddSubscription(
-//                Observable.just(0)
-//                        .delay(1, TimeUnit.SECONDS)
-//                        .doOnNext(i -> dataManager.updateCityLike(city))
-//                        .compose(RxUtils.applySchedulers())
-//                        .subscribe()
-//        );
-        City city1 = new City(city.get_id(), city.getCity(), city.getLl(), !city.getFavourited());
-//        city.setFavourited(!city.getFavourited());
-//        onCityUpdated(city);
-        onCityUpdated(city1);
+        rxAddSubscription(
+                Observable.just(0)
+                        .delay(1, TimeUnit.SECONDS)
+                        .map(integer -> dataManager.updateCityLike(city))
+                        .compose(RxUtils.applySchedulers())
+                        .subscribe(city1 -> onCityUpdated(city),
+                                throwable -> logException(throwable))
+        );
+
+//        City city1 = new City(city.get_id(), city.getCity(), city.getLl(), !city.getFavourited());
+//        onCityUpdated(city1);
     }
 
     void onCityUpdated(City city) {

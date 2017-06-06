@@ -24,5 +24,5 @@ public interface DBHelper {
 
     boolean isCitiesAvailable();
 
-    void updateCityLike(City city);
+    City updateCityLike(City city);
 }

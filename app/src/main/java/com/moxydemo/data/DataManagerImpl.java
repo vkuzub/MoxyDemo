@@ -85,7 +85,7 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public void updateCityLike(City city) {
-        dbHelper.updateCityLike(city);
+    public City updateCityLike(City city) {
+        return dbHelper.updateCityLike(city);
     }
 }

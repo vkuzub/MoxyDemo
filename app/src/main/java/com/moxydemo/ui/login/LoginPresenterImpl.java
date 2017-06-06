@@ -140,7 +140,6 @@ public class LoginPresenterImpl extends BasePresenter<LoginView> implements Logi
     @Override
     public void onLoginSuccess(LoginResponse loginResponse) {
         if (loginResponse != null) {
-            getViewState().showContent();
             if (loginResponse.getStatus().equals("ok")) {
                 getViewState().showMessage(context.getString(R.string.login_success));
                 dataManager.saveUserToken(loginResponse.getToken());

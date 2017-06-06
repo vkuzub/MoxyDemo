@@ -53,8 +53,9 @@ public class DBHelperImpl implements DBHelper {
     }
 
     @Override
-    public void updateCityLike(City city) {
+    public City updateCityLike(City city) {
         city.setFavourited(!city.getFavourited());
         daoSession.update(city);
+        return daoSession.getCityDao().load(city.get_id());
     }
 }
