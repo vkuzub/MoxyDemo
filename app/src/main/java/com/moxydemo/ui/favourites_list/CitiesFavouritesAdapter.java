@@ -11,6 +11,7 @@ import com.arellomobile.mvp.MvpDelegate;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.R;
 import com.moxydemo.base.BaseMvpAdapter;
+import com.moxydemo.base.OnAdapterEmptyListener;
 import com.moxydemo.data.db.model.City;
 import com.moxydemo.utils.CollectionUtils;
 
@@ -32,16 +33,18 @@ public class CitiesFavouritesAdapter extends BaseMvpAdapter<CitiesFavouritesAdap
     @InjectPresenter
     CitiesFavouritesPresenter citiesFavouritesPresenter;
 
-    private List<City> data = new ArrayList<>();
+    private OnAdapterEmptyListener adapterEmptyListener;
+    private List<City> data;
 
     void addData(List<City> cities) {
-        data.addAll(cities);
+        data = new ArrayList<>(cities);
         notifyDataSetChanged();
+        getMvpDelegate().onAttach();
     }
 
-    public CitiesFavouritesAdapter(MvpDelegate<?> parentDelegate, String childId) {
+    public CitiesFavouritesAdapter(MvpDelegate<?> parentDelegate, String childId, OnAdapterEmptyListener listener) {
         super(parentDelegate, childId);
-        getMvpDelegate().onAttach();
+        this.adapterEmptyListener = listener;
     }
 
     @Override
@@ -73,11 +76,15 @@ public class CitiesFavouritesAdapter extends BaseMvpAdapter<CitiesFavouritesAdap
 
     @Override
     public void removeRow(City city) {
+        Timber.i("Remove row %s", city);
         if (city != null) {
             int pos = data.indexOf(city);
             if (pos != -1) {
                 data.remove(city);
                 notifyItemRemoved(pos);
+                if (CollectionUtils.isNullOrEmpty(data)) {
+                    adapterEmptyListener.onAdapterEmpty();
+                }
             } else {
                 Timber.i("pos == -1");
             }

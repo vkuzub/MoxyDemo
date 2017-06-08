@@ -64,4 +64,8 @@ public class FavouritesPresenter extends BasePresenter<FavouritesView> {
             getViewState().showEmpty(R.string.no_data);
         }
     }
+
+    void adapterEmpty(){
+        getViewState().showError(R.string.you_dont_have_any_favourites);
+    }
 }

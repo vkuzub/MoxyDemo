@@ -39,7 +39,7 @@ public class FavouritesActivity extends BaseMvpViewActivity implements Favourite
 
     private void initViews() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        adapter = new CitiesFavouritesAdapter(getMvpDelegate(), CitiesFavouritesAdapter.CHILD_ID);
+        adapter = new CitiesFavouritesAdapter(getMvpDelegate(), CitiesFavouritesAdapter.CHILD_ID, this);
         rvData.setLayoutManager(linearLayoutManager);
         rvData.setItemAnimator(new DefaultItemAnimator());
         rvData.setAdapter(adapter);
@@ -49,5 +49,10 @@ public class FavouritesActivity extends BaseMvpViewActivity implements Favourite
     public void fillContent(List<City> list) {
         Timber.i("fill content");
         adapter.addData(list);
+    }
+
+    @Override
+    public void onAdapterEmpty() {
+        presenter.adapterEmpty();
     }
 }
