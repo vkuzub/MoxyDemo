@@ -45,7 +45,7 @@ public abstract class BaseMvpViewActivity extends MvpAppCompatActivity
     View contentView;
 
     @Inject
-    ToastUtils toastUtils;
+    protected ToastUtils toastUtils;
 
     private CompositeSubscription compositeSubscription;
 

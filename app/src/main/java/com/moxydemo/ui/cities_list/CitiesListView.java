@@ -39,6 +39,6 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
     @StateStrategyType(OneExecutionStateStrategy.class)
     void resetPaginationState();
 
-    @StateStrategyType(OneExecutionSingleStateStrategy.class)
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void startFavouritesActivity();
 }
