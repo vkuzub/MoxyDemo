@@ -96,6 +96,7 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
                     .subscribe(cities -> addDataToAdapter(cities),
                             throwable -> {
                                 logException(throwable);
+                                getViewState().showError(R.string.oops_something_went_wrong);
                             }));
         }
     }
@@ -169,5 +170,9 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
                 return null;
             }
         }.execute();
+    }
+
+    void startFavourites() {
+        getViewState().startFavouritesActivity();
     }
 }

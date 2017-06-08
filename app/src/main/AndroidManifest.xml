@@ -21,6 +21,16 @@
         </activity>
         <activity android:name=".ui.cities_list.CitiesListActivity">
         </activity>
+        <activity
+            android:name=".ui.favourites_list.FavouritesActivity"
+            android:label="@string/title_activity_favourites"
+            android:parentActivityName=".ui.cities_list.CitiesListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.cities_list.CitiesListActivity">
+            </meta-data>
+        </activity>
     </application>
 
 </manifest>

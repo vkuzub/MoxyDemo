@@ -55,7 +55,7 @@ public class CitiesStarPresenter extends BasePresenter<CitiesStarView> {
         rxAddSubscription(
                 Observable.just(0)
                         .delay(1, TimeUnit.SECONDS)
-                        .map(integer -> dataManager.updateCityLike(city))
+                        .map(integer -> dataManager.revertCityLike(city))
                         .compose(RxUtils.applySchedulers())
                         .subscribe(city1 -> onCityUpdated(city),
                                 throwable -> logException(throwable))

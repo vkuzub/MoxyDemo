@@ -18,11 +18,15 @@ public interface DBHelper {
 
     Observable<List<City>> loadCitiesLimit(int limit, int offset);
 
+    Observable<List<City>> loadFavourites();
+
     int citiesCount();
 
     void clearCities();
 
     boolean isCitiesAvailable();
 
-    City updateCityLike(City city);
+    City revertCityLike(City city);
+
+    City removeFromFavourites(City city);
 }

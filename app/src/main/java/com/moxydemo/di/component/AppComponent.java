@@ -5,6 +5,8 @@ import com.moxydemo.di.module.AppModule;
 import com.moxydemo.di.module.UtilsModule;
 import com.moxydemo.ui.cities_list.CitiesListPresenterImpl;
 import com.moxydemo.ui.cities_list.CitiesStarPresenter;
+import com.moxydemo.ui.favourites_list.CitiesFavouritesPresenter;
+import com.moxydemo.ui.favourites_list.FavouritesPresenter;
 import com.moxydemo.ui.login.LoginPresenterImpl;
 
 import javax.inject.Singleton;
@@ -24,5 +26,7 @@ public interface AppComponent {
     void inject(LoginPresenterImpl presenter);
     void inject(CitiesListPresenterImpl presenter);
     void inject(CitiesStarPresenter presenter);
+    void inject(FavouritesPresenter presenter);
+    void inject(CitiesFavouritesPresenter presenter);
 
 }

@@ -14,6 +14,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.R;
 import com.moxydemo.base.BaseMvpViewActivity;
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.ui.favourites_list.FavouritesActivity;
 import com.moxydemo.ui.login.MainActivity;
 import com.moxydemo.utils.EndlessRecyclerViewScrollListener;
 
@@ -89,7 +90,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
 
     @Override
     public void onFavouritesClick() {
-
+        citiesListPresenter.startFavourites();
     }
 
     @Override
@@ -117,6 +118,11 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
     @Override
     public void resetPaginationState() {
         rvScrollListener.resetState();
+    }
+
+    @Override
+    public void startFavouritesActivity() {
+        startActivity(new Intent(this, FavouritesActivity.class));
     }
 
     @Override

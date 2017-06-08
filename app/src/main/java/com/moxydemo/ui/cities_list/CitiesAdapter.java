@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpDelegate;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.R;
+import com.moxydemo.base.BaseMvpAdapter;
 import com.moxydemo.data.db.model.City;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import timber.log.Timber;
  * Created by Vyacheslav on 01.06.2017.
  */
 
-public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder> implements CitiesStarView {
+public class CitiesAdapter extends BaseMvpAdapter<CitiesAdapter.ViewHolder> implements CitiesStarView {
 
     public static final String CHILD_ID = "10";
 
@@ -33,26 +34,12 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     public static final int TYPE_NON_FAVOURITED = 0;
     public static final int TYPE_FAVOURITED = 1;
 
-    private MvpDelegate<CitiesAdapter> mvpDelegate;
-    private MvpDelegate<?> parentDelegate;
-    private String childId;
     private boolean isPresenterAttached;
 
     private List<City> data = new ArrayList<>();
 
     public CitiesAdapter(MvpDelegate<?> parentDelegate, String childId) {
-        this.parentDelegate = parentDelegate;
-        this.childId = childId;
-
-        getMvpDelegate().onCreate();
-    }
-
-    public MvpDelegate<CitiesAdapter> getMvpDelegate() {
-        if (mvpDelegate == null) {
-            mvpDelegate = new MvpDelegate<>(this);
-            mvpDelegate.setParentDelegate(parentDelegate, childId);
-        }
-        return mvpDelegate;
+        super(parentDelegate, childId);
     }
 
     public void addData(List<City> data) {

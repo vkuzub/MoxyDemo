@@ -1,6 +1,7 @@
 package com.moxydemo.data.db;
 
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.data.db.model.CityDao;
 import com.moxydemo.data.db.model.DaoSession;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public class DBHelperImpl implements DBHelper {
     }
 
     @Override
+    public Observable<List<City>> loadFavourites() {
+        return daoSession.getCityDao().queryBuilder().where(CityDao.Properties.Favourited.eq(true)).rx().list();
+    }
+
+    @Override
     public int citiesCount() {
         return daoSession.getCityDao().loadAll().size();
     }
@@ -53,8 +59,15 @@ public class DBHelperImpl implements DBHelper {
     }
 
     @Override
-    public City updateCityLike(City city) {
+    public City revertCityLike(City city) {
         city.setFavourited(!city.getFavourited());
+        daoSession.update(city);
+        return daoSession.getCityDao().load(city.get_id());
+    }
+
+    @Override
+    public City removeFromFavourites(City city) {
+        city.setFavourited(false);
         daoSession.update(city);
         return daoSession.getCityDao().load(city.get_id());
     }

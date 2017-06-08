@@ -70,6 +70,11 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public Observable<List<City>> loadFavourites() {
+        return dbHelper.loadFavourites();
+    }
+
+    @Override
     public int citiesCount() {
         return dbHelper.citiesCount();
     }
@@ -85,7 +90,12 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public City updateCityLike(City city) {
-        return dbHelper.updateCityLike(city);
+    public City revertCityLike(City city) {
+        return dbHelper.revertCityLike(city);
+    }
+
+    @Override
+    public City removeFromFavourites(City city) {
+        return dbHelper.removeFromFavourites(city);
     }
 }
