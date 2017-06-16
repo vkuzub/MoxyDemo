@@ -2,6 +2,7 @@ package com.moxydemo.data;
 
 import com.moxydemo.data.db.DBHelper;
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.data.db.model.CitySuggestion;
 import com.moxydemo.data.network.ApiHelper;
 import com.moxydemo.data.network.model.LoginResponse;
 import com.moxydemo.data.prefs.PreferenceHelper;
@@ -72,6 +73,21 @@ public class DataManagerImpl implements DataManager {
     @Override
     public Observable<List<City>> loadFavourites() {
         return dbHelper.loadFavourites();
+    }
+
+    @Override
+    public Observable<List<City>> loadCoincides(String line) {
+        return dbHelper.loadCoincides(line);
+    }
+
+    @Override
+    public void saveSuggestion(String query) {
+        dbHelper.saveSuggestion(query);
+    }
+
+    @Override
+    public Observable<List<CitySuggestion>> loadSuggestions() {
+        return dbHelper.loadSuggestions();
     }
 
     @Override

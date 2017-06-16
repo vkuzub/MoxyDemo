@@ -86,4 +86,5 @@ dependencies {
     provided 'frankiesardo:icepick-processor:3.2.0'
     provided 'com.arello-mobile:moxy-compiler:1.5.3'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.github.arimorty:floatingsearchview:2.1.1'
 }

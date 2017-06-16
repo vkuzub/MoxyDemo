@@ -77,7 +77,6 @@ public class MainActivity extends BaseMvpViewActivity implements LoginView {
         ButtonTintUtils.setButtonEnabled(btnLogIn, false, R.color.colorPrimary, android.R.color.darker_gray);
     }
 
-    @Override
     @OnClick(R.id.btnLogIn)
     public void onButtonLoginClick() {
         loginPresenter.onButtonLoginClick(etEmail.getText().toString(), etPassword.getText().toString());

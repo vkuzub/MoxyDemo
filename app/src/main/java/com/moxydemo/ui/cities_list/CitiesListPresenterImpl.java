@@ -24,7 +24,7 @@ import rx.Subscriber;
  */
 
 @InjectViewState
-public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> implements CitiesListPresenter {
+public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> {
 
     private int sleep = 2;
 
@@ -44,7 +44,6 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
         loadData();
     }
 
-    @Override
     public void loadData() {
         getViewState().showLoading();
 
@@ -84,7 +83,6 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
         };
     }
 
-    @Override
     public void onListToEndScrolled() {
         if (canLoadMore()) {
 
@@ -101,7 +99,6 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
         }
     }
 
-    @Override
     public void onDataLoadedSuccess(List<City> cities) {
         if (!CollectionUtils.isNullOrEmpty(cities)) {
             incrementPage();
@@ -113,7 +110,6 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
         }
     }
 
-    @Override
     public void addDataToAdapter(List<City> cities) {
         getViewState().showSwipeRefresh(false);
         if (!CollectionUtils.isNullOrEmpty(cities)) {
@@ -122,29 +118,24 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
         }
     }
 
-    @Override
     public void onRefresh() {
         getViewState().resetPaginationState();
         getViewState().clearContent();
         loadData();
     }
 
-    @Override
     public int getOffset() {
         return page * limit;
     }
 
-    @Override
     public void incrementPage() {
         page++;
     }
 
-    @Override
     public void resetPage() {
         page = 0;
     }
 
-    @Override
     public boolean canLoadMore() {
         int count = dataManager.citiesCount();
         return getOffset() < count;
@@ -174,5 +165,9 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> imple
 
     void startFavourites() {
         getViewState().startFavouritesActivity();
+    }
+
+    void startSearch() {
+        getViewState().startSearchActivity();
     }
 }

@@ -1,5 +1,9 @@
 package com.moxydemo.data.db.model;
 
+import android.os.Parcel;
+
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -8,7 +12,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * Created by Vyacheslav on 01.06.2017.
  */
 @Entity
-public class City {
+public class City implements SearchSuggestion {
 
     @Id(autoincrement = true)
     private Long _id;
@@ -94,4 +98,42 @@ public class City {
                 ", favourited=" + favourited +
                 '}';
     }
+
+    @Override
+    public String getBody() {
+        return city;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this._id);
+        dest.writeString(this.city);
+        dest.writeString(this.ll);
+        dest.writeByte(this.favourited ? (byte) 1 : (byte) 0);
+    }
+
+    protected City(Parcel in) {
+        this._id = (Long) in.readValue(Long.class.getClassLoader());
+        this.city = in.readString();
+        this.ll = in.readString();
+        this.favourited = in.readByte() != 0;
+    }
+
+    public static final Creator<City> CREATOR = new Creator<City>() {
+        @Override
+        public City createFromParcel(Parcel source) {
+            return new City(source);
+        }
+
+        @Override
+        public City[] newArray(int size) {
+            return new City[size];
+        }
+    };
 }

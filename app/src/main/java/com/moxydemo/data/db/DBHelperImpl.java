@@ -1,8 +1,13 @@
 package com.moxydemo.data.db;
 
+import android.text.TextUtils;
+
 import com.moxydemo.data.db.model.City;
 import com.moxydemo.data.db.model.CityDao;
+import com.moxydemo.data.db.model.CitySuggestion;
+import com.moxydemo.data.db.model.CitySuggestionDao;
 import com.moxydemo.data.db.model.DaoSession;
+import com.moxydemo.utils.CollectionUtils;
 
 import java.util.List;
 
@@ -41,6 +46,36 @@ public class DBHelperImpl implements DBHelper {
     @Override
     public Observable<List<City>> loadFavourites() {
         return daoSession.getCityDao().queryBuilder().where(CityDao.Properties.Favourited.eq(true)).rx().list();
+    }
+
+    @Override
+    public Observable<List<City>> loadCoincides(String line) {
+        String like = "%" + line + "%";
+        return daoSession.getCityDao().queryBuilder().where(CityDao.Properties.City.like(like)).rx().list();
+    }
+
+    @Override
+    public void saveSuggestion(String query) {
+        if (TextUtils.isEmpty(query)) {
+            return;
+        }
+        if (!CollectionUtils.isNullOrEmpty(daoSession.getCitySuggestionDao().queryBuilder().where(CitySuggestionDao.Properties.Query.eq(query)).list())) {
+            return;
+        }
+        int size = daoSession.getCitySuggestionDao().loadAll().size();
+        if (size == 3) {
+            List<CitySuggestion> suggestions = daoSession.getCitySuggestionDao().loadAll();
+            CitySuggestion removeCandidate = suggestions.get(0);
+            daoSession.getCitySuggestionDao().delete(removeCandidate);
+        }
+        CitySuggestion suggestion = new CitySuggestion();
+        suggestion.setQuery(query);
+        daoSession.getCitySuggestionDao().insert(suggestion);
+    }
+
+    @Override
+    public Observable<List<CitySuggestion>> loadSuggestions() {
+        return daoSession.getCitySuggestionDao().queryBuilder().orderAsc(CitySuggestionDao.Properties.Query).rx().list();
     }
 
     @Override

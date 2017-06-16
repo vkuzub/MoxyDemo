@@ -16,13 +16,13 @@ import com.moxydemo.base.BaseMvpViewActivity;
 import com.moxydemo.data.db.model.City;
 import com.moxydemo.ui.favourites_list.FavouritesActivity;
 import com.moxydemo.ui.login.MainActivity;
+import com.moxydemo.ui.search.SearchActivity;
 import com.moxydemo.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class CitiesListActivity extends BaseMvpViewActivity implements CitiesListView {
 
@@ -79,18 +79,23 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
             case R.id.favourites:
                 onFavouritesClick();
                 break;
+            case R.id.search:
+                onSearchClick();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onLogOutClick() {
+    private void onLogOutClick() {
         citiesListPresenter.logOut();
     }
 
-    @Override
-    public void onFavouritesClick() {
+    private void onFavouritesClick() {
         citiesListPresenter.startFavourites();
+    }
+
+    private void onSearchClick() {
+        citiesListPresenter.startSearch();
     }
 
     @Override
@@ -105,7 +110,6 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
 
     @Override
     public void clearContent() {
-        Timber.i("Clear content");
         adapter.clear();
     }
 
@@ -123,6 +127,11 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
     @Override
     public void startFavouritesActivity() {
         startActivity(new Intent(this, FavouritesActivity.class));
+    }
+
+    @Override
+    public void startSearchActivity() {
+        startActivity(new Intent(this, SearchActivity.class));
     }
 
     @Override

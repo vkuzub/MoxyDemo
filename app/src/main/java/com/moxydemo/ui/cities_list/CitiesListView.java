@@ -18,12 +18,6 @@ import java.util.List;
 
 public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefreshLayout.OnRefreshListener {
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void onLogOutClick();
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void onFavouritesClick();
-
     @StateStrategyType(AddToEndStrategy.class)
     void showSwipeRefresh(boolean show);
 
@@ -41,4 +35,7 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void startFavouritesActivity();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void startSearchActivity();
 }

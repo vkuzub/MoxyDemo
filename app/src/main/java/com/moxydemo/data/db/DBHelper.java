@@ -1,6 +1,7 @@
 package com.moxydemo.data.db;
 
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.data.db.model.CitySuggestion;
 
 import java.util.List;
 
@@ -19,6 +20,12 @@ public interface DBHelper {
     Observable<List<City>> loadCitiesLimit(int limit, int offset);
 
     Observable<List<City>> loadFavourites();
+
+    Observable<List<City>> loadCoincides(String line);
+
+    void saveSuggestion(String query);
+
+    Observable<List<CitySuggestion>> loadSuggestions();
 
     int citiesCount();
 
