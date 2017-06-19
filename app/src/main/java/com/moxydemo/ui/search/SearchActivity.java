@@ -74,7 +74,7 @@ public class SearchActivity extends BaseMvpViewActivity implements SearchView {
 
             @Override
             public void onFocus() {
-                searchPresenter.loadSuggestions();
+                searchPresenter.fetchSuggestions();
             }
 
             @Override

@@ -74,8 +74,13 @@ public class DBHelperImpl implements DBHelper {
     }
 
     @Override
-    public Observable<List<CitySuggestion>> loadSuggestions() {
+    public Observable<List<CitySuggestion>> loadSuggestionsRx() {
         return daoSession.getCitySuggestionDao().queryBuilder().orderAsc(CitySuggestionDao.Properties.Query).rx().list();
+    }
+
+    @Override
+    public List<CitySuggestion> loadSuggestions() {
+        return daoSession.getCitySuggestionDao().queryBuilder().orderAsc(CitySuggestionDao.Properties.Query).list();
     }
 
     @Override

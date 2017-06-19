@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.subjects.PublishSubject;
 import timber.log.Timber;
 
 /**
@@ -26,11 +28,12 @@ public class SearchPresenter extends BasePresenter<SearchView> {
 
     @Inject
     DataManager dataManager;
-
+    private PublishSubject<Void> loadSuggestionsSubject = PublishSubject.create();
     private String prevQuery;
 
     public SearchPresenter() {
         App.getAppComponent().inject(this);
+        initSubject();
     }
 
     @Override
@@ -40,21 +43,33 @@ public class SearchPresenter extends BasePresenter<SearchView> {
         getViewState().expandSearch();
     }
 
+    void initSubject() {
+        rxAddSubscription(
+                loadSuggestionsSubject
+                        .debounce(1000, TimeUnit.MILLISECONDS) //to subscriber
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(v -> loadSuggestions(), throwable -> logException(throwable)));
+    }
+
     public void onSearchTextChanged(String oldQuery, String newQuery) {
-        Timber.i(oldQuery + " " + newQuery);
         if (TextUtils.isEmpty(newQuery)) {
             getViewState().clearSearchResult();
         } else {
-            loadSuggestions();
+            fetchSuggestions();
         }
     }
 
-    public void loadSuggestions() {
+    public void fetchSuggestions() {
+        loadSuggestionsSubject.onNext(null);
+    }
+
+    private void loadSuggestions() {
         getViewState().hideSuggestions();
         getViewState().showSuggestionsLoading();
-        //defer
+
         loadSavedSuggestions();
     }
+
 
     public void onSuggestionClick(String query) {
         getViewState().setSearchText(query);
@@ -94,7 +109,7 @@ public class SearchPresenter extends BasePresenter<SearchView> {
 
     private void loadSavedSuggestions() {
         rxAddSubscription(
-                dataManager.loadSuggestions()
+                dataManager.loadSuggestionsRx()
                         .delay(2, TimeUnit.SECONDS)
                         .compose(RxUtils.applySchedulers()).
                         subscribe(suggestions -> onSuggestionsLoaded(suggestions), throwable -> logException(throwable))
@@ -102,6 +117,7 @@ public class SearchPresenter extends BasePresenter<SearchView> {
     }
 
     private void onSuggestionsLoaded(List<CitySuggestion> suggestions) {
+        Timber.i("On suggestions loaded");
         getViewState().hideSuggestionsLoading();
         if (!CollectionUtils.isNullOrEmpty(suggestions)) {
             getViewState().showSuggestions(suggestions);

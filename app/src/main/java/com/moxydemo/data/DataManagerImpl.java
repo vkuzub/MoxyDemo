@@ -86,7 +86,12 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public Observable<List<CitySuggestion>> loadSuggestions() {
+    public Observable<List<CitySuggestion>> loadSuggestionsRx() {
+        return dbHelper.loadSuggestionsRx();
+    }
+
+    @Override
+    public List<CitySuggestion> loadSuggestions() {
         return dbHelper.loadSuggestions();
     }
 

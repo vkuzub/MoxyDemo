@@ -25,7 +25,9 @@ public interface DBHelper {
 
     void saveSuggestion(String query);
 
-    Observable<List<CitySuggestion>> loadSuggestions();
+    Observable<List<CitySuggestion>> loadSuggestionsRx();
+
+    List<CitySuggestion> loadSuggestions();
 
     int citiesCount();
 
