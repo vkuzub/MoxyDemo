@@ -116,7 +116,8 @@ public class LoginPresenterImpl extends BasePresenter<LoginView> implements Logi
                                     onLoginSuccess(loginResponse);
                                 },
                                 throwable -> {
-                                    getViewState().showError(R.string.oops_something_went_wrong);
+                                    getViewState().showMessage(R.string.oops_something_went_wrong);
+                                    getViewState().showContent();
                                     logException(throwable);
                                 })
         );
@@ -131,7 +132,8 @@ public class LoginPresenterImpl extends BasePresenter<LoginView> implements Logi
                                     onLoginSuccess(loginResponse);
                                 },
                                 throwable -> {
-                                    getViewState().showError(R.string.oops_something_went_wrong);
+                                    getViewState().showMessage(R.string.oops_something_went_wrong);
+                                    getViewState().showContent();
                                     logException(throwable);
                                 })
         );
@@ -146,6 +148,7 @@ public class LoginPresenterImpl extends BasePresenter<LoginView> implements Logi
                 getViewState().startCitiesListActivity();
             } else if (loginResponse.getStatus().equals("fail")) {
                 getViewState().showMessage(loginResponse.getMessage());
+                getViewState().showContent();
             }
         }
     }

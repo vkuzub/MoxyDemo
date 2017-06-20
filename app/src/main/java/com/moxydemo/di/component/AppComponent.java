@@ -5,6 +5,7 @@ import com.moxydemo.di.module.AppModule;
 import com.moxydemo.di.module.UtilsModule;
 import com.moxydemo.ui.cities_list.CitiesListPresenterImpl;
 import com.moxydemo.ui.cities_list.CitiesStarPresenter;
+import com.moxydemo.ui.details.DetailsPresenter;
 import com.moxydemo.ui.favourites_list.CitiesFavouritesPresenter;
 import com.moxydemo.ui.favourites_list.FavouritesPresenter;
 import com.moxydemo.ui.login.LoginPresenterImpl;
@@ -32,5 +33,6 @@ public interface AppComponent {
     void inject(FavouritesPresenter presenter);
     void inject(CitiesFavouritesPresenter presenter);
     void inject(SearchPresenter presenter);
+    void inject(DetailsPresenter presenter);
 
 }

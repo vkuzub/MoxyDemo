@@ -65,11 +65,6 @@ public class City implements SearchSuggestion {
         this._id = _id;
     }
 
-    public boolean getFavourited() {
-        return this.favourited;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -116,6 +111,10 @@ public class City implements SearchSuggestion {
         dest.writeString(this.city);
         dest.writeString(this.ll);
         dest.writeByte(this.favourited ? (byte) 1 : (byte) 0);
+    }
+
+    public boolean getFavourited() {
+        return this.favourited;
     }
 
     protected City(Parcel in) {

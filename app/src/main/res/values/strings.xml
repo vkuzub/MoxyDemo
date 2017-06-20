@@ -20,4 +20,6 @@
     <string name="title_activity_favourites">FavouritesActivity</string>
     <string name="you_dont_have_any_favourites">You don\'t have any favourites</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

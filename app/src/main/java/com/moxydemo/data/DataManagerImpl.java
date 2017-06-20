@@ -81,6 +81,11 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public Observable<City> loadCity(long cityId) {
+        return dbHelper.loadCity(cityId);
+    }
+
+    @Override
     public void saveSuggestion(String query) {
         dbHelper.saveSuggestion(query);
     }

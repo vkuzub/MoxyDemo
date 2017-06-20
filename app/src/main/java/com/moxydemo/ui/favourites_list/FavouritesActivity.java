@@ -22,6 +22,9 @@ public class FavouritesActivity extends BaseMvpViewActivity implements Favourite
     @InjectPresenter
     FavouritesPresenter presenter;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.contentView)
     RecyclerView rvData;
     private CitiesFavouritesAdapter adapter;
@@ -31,13 +34,13 @@ public class FavouritesActivity extends BaseMvpViewActivity implements Favourite
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         initViews();
     }
 
     private void initViews() {
+        setSupportActionBar(toolbar);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         adapter = new CitiesFavouritesAdapter(getMvpDelegate(), CitiesFavouritesAdapter.CHILD_ID, this);
         rvData.setLayoutManager(linearLayoutManager);

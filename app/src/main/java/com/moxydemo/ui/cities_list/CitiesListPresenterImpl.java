@@ -170,4 +170,10 @@ public class CitiesListPresenterImpl extends BasePresenter<CitiesListView> {
     void startSearch() {
         getViewState().startSearchActivity();
     }
+
+    void onItemClick(City city) {
+        if (city != null) {
+            getViewState().startDetailsActivity(city.get_id());
+        }
+    }
 }

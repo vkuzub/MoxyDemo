@@ -42,6 +42,10 @@ public class CitiesAdapter extends BaseMvpAdapter<CitiesAdapter.ViewHolder> impl
         super(parentDelegate, childId);
     }
 
+    public List<City> getData() {
+        return data;
+    }
+
     public void addData(List<City> data) {
         this.data.addAll(data);
         citiesStarPresenter.setDataCount(this.data.size());

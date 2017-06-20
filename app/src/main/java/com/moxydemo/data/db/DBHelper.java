@@ -23,6 +23,8 @@ public interface DBHelper {
 
     Observable<List<City>> loadCoincides(String line);
 
+    Observable<City> loadCity(long cityId);
+
     void saveSuggestion(String query);
 
     Observable<List<CitySuggestion>> loadSuggestionsRx();

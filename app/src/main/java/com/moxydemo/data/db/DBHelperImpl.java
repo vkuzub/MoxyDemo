@@ -55,6 +55,11 @@ public class DBHelperImpl implements DBHelper {
     }
 
     @Override
+    public Observable<City> loadCity(long cityId) {
+        return daoSession.getCityDao().rx().load(cityId);
+    }
+
+    @Override
     public void saveSuggestion(String query) {
         if (TextUtils.isEmpty(query)) {
             return;

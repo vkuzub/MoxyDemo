@@ -9,6 +9,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.moxydemo.base.view.HideShowContentView;
 import com.moxydemo.data.db.model.City;
 import com.moxydemo.utils.OneExecutionSingleStateStrategy;
+import com.moxydemo.utils.RvItemClickSupport;
 
 import java.util.List;
 
@@ -16,7 +17,10 @@ import java.util.List;
  * Created by Vyacheslav on 01.06.2017.
  */
 
-public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefreshLayout.OnRefreshListener {
+public interface CitiesListView extends MvpView,
+        HideShowContentView,
+        SwipeRefreshLayout.OnRefreshListener,
+        RvItemClickSupport.OnItemClickListener {
 
     @StateStrategyType(AddToEndStrategy.class)
     void showSwipeRefresh(boolean show);
@@ -38,4 +42,7 @@ public interface CitiesListView extends MvpView, HideShowContentView, SwipeRefre
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void startSearchActivity();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void startDetailsActivity(long id);
 }

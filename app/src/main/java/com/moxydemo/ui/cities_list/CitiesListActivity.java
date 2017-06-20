@@ -9,15 +9,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.moxydemo.R;
 import com.moxydemo.base.BaseMvpViewActivity;
 import com.moxydemo.data.db.model.City;
+import com.moxydemo.ui.details.DetailsActivity;
 import com.moxydemo.ui.favourites_list.FavouritesActivity;
 import com.moxydemo.ui.login.MainActivity;
 import com.moxydemo.ui.search.SearchActivity;
 import com.moxydemo.utils.EndlessRecyclerViewScrollListener;
+import com.moxydemo.utils.RvItemClickSupport;
 
 import java.util.List;
 
@@ -62,6 +65,7 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
             }
         };
         rvData.addOnScrollListener(rvScrollListener);
+        RvItemClickSupport.addTo(rvData).setOnItemClickListener(this);
     }
 
     @Override
@@ -135,7 +139,22 @@ public class CitiesListActivity extends BaseMvpViewActivity implements CitiesLis
     }
 
     @Override
+    public void startDetailsActivity(long id) {
+        startActivity(DetailsActivity.getStartIntent(this, id));
+    }
+
+    @Override
     public void onRefresh() {
         citiesListPresenter.onRefresh();
     }
+
+    @Override
+    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+        if (adapter != null) {
+            City item = adapter.getData().get(position);
+            citiesListPresenter.onItemClick(item);
+        }
+    }
+
+
 }
